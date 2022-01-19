@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace App\Http\Procedures;
 
 use App\WebClient;
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Http\Request;
 use Sajya\Server\Procedure;
