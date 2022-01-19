@@ -1,0 +1,136 @@
+version: '3'
+services:
+  nginx_rpc0:
+    image: nginx:latest
+    container_name: nginx_rpc0
+    restart: unless-stopped
+    volumes:
+      - ./nginx/rpc0.conf:/etc/nginx/nginx.conf
+    networks:
+      hex-network:
+        aliases:
+          - rpc0_alias
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.frontend.rule=PathPrefix(`/`)"
+      - "traefik.docker.network=hex-network"
+
+  nginx_rpc1:
+    image: nginx:latest
+    container_name: nginx_rpc1
+    restart: unless-stopped
+    volumes:
+      - ./nginx/rpc1.conf:/etc/nginx/nginx.conf
+    networks:
+      hex-network:
+        aliases:
+          - rpc1_alias
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.back_auth.rule=Host(`rpc1_alias`)"
+      - "traefik.docker.network=hex-network"
+
+  nginx_rpc2:
+    image: nginx:latest
+    container_name: nginx_rpc2
+    restart: unless-stopped
+    volumes:
+      - ./nginx/rpc2.conf:/etc/nginx/nginx.conf
+    networks:
+      hex-network:
+        aliases:
+          - rpc2_alias
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.back_pokemon.rule=Host(`rpc2_alias`)"
+      - "traefik.docker.network=hex-network"
+
+  nginx_rpc3:
+    image: nginx:latest
+    container_name: nginx_rpc3
+    restart: unless-stopped
+    volumes:
+      - ./nginx/rpc3.conf:/etc/nginx/nginx.conf
+    networks:
+      hex-network:
+        aliases:
+          - rpc3_alias
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.back_stats.rule=Host(`rpc3_alias`)"
+      - "traefik.docker.network=hex-network"
+
+  traefik:
+    image: traefik:latest
+    container_name: "traefik"
+    command:
+      - "--api.insecure=true"
+      - "--log.level=DEBUG"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    networks:
+      hex-network:
+        aliases:
+          - gateway
+
+  rpc0:
+    build:
+      context: ./rpc0
+    user: "1000:1000"
+    container_name: rpc0
+    restart: unless-stopped
+    working_dir: /app
+    volumes:
+      - ./rpc0/:/app:rw
+      - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
+    networks:
+      - hex-network
+
+  rpc1:
+    build:
+      context: ./rpc1
+    user: "1000:1000"
+    container_name: rpc1
+    restart: unless-stopped
+    working_dir: /app
+    volumes:
+      - ./rpc1/:/app:rw
+      - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
+    networks:
+      - hex-network
+
+  rpc2:
+    build:
+      context: ./rpc2
+    user: "1000:1000"
+    container_name: rpc2
+    restart: unless-stopped
+    working_dir: /app
+    volumes:
+      - ./rpc2/:/app:rw
+      - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
+    networks:
+      - hex-network
+
+  rpc3:
+    build:
+      context: ./rpc3
+    user: "1000:1000"
+    container_name: rpc3
+    restart: unless-stopped
+    working_dir: /app
+    volumes:
+      - ./rpc3/:/app:rw
+      - ./php/local.ini:/usr/local/etc/php/conf.d/local.ini
+    networks:
+      - hex-network
+
+networks:
+  hex-network:
+    driver: bridge
