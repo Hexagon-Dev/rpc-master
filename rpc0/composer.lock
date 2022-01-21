@@ -3130,16 +3130,16 @@
         },
         {
             "name": "sajya/server",
-            "version": "4.0.4",
+            "version": "4.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sajya/server.git",
-                "reference": "1ec1611fc917c85ba1dbe4c77e946c844bfb8cd6"
+                "reference": "82ce8678f4c9c21d48830238876c248f8eb89bd5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sajya/server/zipball/1ec1611fc917c85ba1dbe4c77e946c844bfb8cd6",
-                "reference": "1ec1611fc917c85ba1dbe4c77e946c844bfb8cd6",
+                "url": "https://api.github.com/repos/sajya/server/zipball/82ce8678f4c9c21d48830238876c248f8eb89bd5",
+                "reference": "82ce8678f4c9c21d48830238876c248f8eb89bd5",
                 "shasum": ""
             },
             "require": {
@@ -3198,7 +3198,7 @@
             ],
             "support": {
                 "issues": "https://github.com/sajya/server/issues",
-                "source": "https://github.com/sajya/server/tree/4.0.4"
+                "source": "https://github.com/sajya/server/tree/4.0.5"
             },
             "funding": [
                 {
@@ -3206,7 +3206,7 @@
                     "type": "custom"
                 }
             ],
-            "time": "2021-12-26T20:01:39+00:00"
+            "time": "2022-01-21T03:38:22+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",

@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Http\Procedures;
 
 use Illuminate\Http\Request;
+use Sajya\Server\Exceptions\InvalidRequestException;
+use Sajya\Server\Exceptions\RuntimeRpcException;
 use Sajya\Server\Procedure;
 
 class MathProcedure extends Procedure
@@ -17,14 +19,10 @@ class MathProcedure extends Procedure
     /**
      * @param Request $request
      *
-     * @return string
-     * @throws \JsonException
+     * @return array
      */
-    public function process(Request $request): string
+    public function average(Request $request): array
     {
-        $sum = array_sum($request->all());
-        $result = $sum / count($request->all());
-
-        return json_encode(['average' => $result], JSON_THROW_ON_ERROR);
+        return ['average' => collect($request->all())->avg()];
     }
 }

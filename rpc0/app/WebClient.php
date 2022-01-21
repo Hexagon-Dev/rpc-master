@@ -3,34 +3,37 @@
 namespace App;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Exception\GuzzleException;
+use Sajya\Server\Exceptions\InvalidRequestException;
+use Sajya\Server\Http\Request;
+use Throwable;
 
 class WebClient
 {
     /**
-     * @throws GuzzleException
-     * @throws \JsonException
+     * @param Request $request
+     * @param string $url
+     * @return mixed
      */
-    public function getData(array $request)
+    public function getData(Request $request, string $url)
     {
         $client = new Client();
 
-        $parts = explode(':', $request['method']);
-
-        $request['method'] = $parts[1];
-
         try {
-            $response = $client->post($parts[0] . '_alias/api/v1/endpoint', ['json' => $request]);
+            $response = $client->post($url, ['json' => $request->jsonSerialize()]);
 
             $data = $response->getBody();
             $data = $data->getContents();
 
-            $data = json_decode($data, true, 512, JSON_THROW_ON_ERROR);
-        } catch (ClientException $e) {
-            $data = response()->json(['error' => $e]);
-        }
+            $result = json_decode($data, true, 512, JSON_THROW_ON_ERROR);
 
-        return $data;
+            if ($error = data_get($result, 'error')) {
+                return new InvalidRequestException($error);
+            }
+
+            return data_get($result, 'result');
+
+        } catch (Throwable $e) {
+            return new InvalidRequestException(['error' => $e->getMessage()]);
+        }
     }
 }

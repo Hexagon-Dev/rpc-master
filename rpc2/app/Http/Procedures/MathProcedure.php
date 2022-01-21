@@ -17,11 +17,10 @@ class MathProcedure extends Procedure
     /**
      * @param Request $request
      *
-     * @return string
-     * @throws \JsonException
+     * @return array
      */
-    public function process(Request $request): string
+    public function multiply(Request $request): array
     {
-        return json_encode(['multiply' => array_product($request->all())], JSON_THROW_ON_ERROR);
+        return ['multiply' => array_product($request->all())];
     }
 }

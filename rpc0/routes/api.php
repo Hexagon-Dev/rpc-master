@@ -1,8 +1,6 @@
 <?php
 
-use App\Http\Controllers\MathController;
-use App\Http\Procedures\MathProcedure;
+use App\Http\Controllers\ProxyController;
 use Illuminate\Support\Facades\Route;
 
-Route::rpc('/v1/endpoint', [MathProcedure::class]);
-Route::post('/v2/endpoint', [MathController::class, 'process']);
+Route::post('/process', [ProxyController::class, 'process']);

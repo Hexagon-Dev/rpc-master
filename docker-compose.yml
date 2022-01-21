@@ -12,7 +12,7 @@ services:
           - rpc0_alias
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.frontend.rule=PathPrefix(`/`)"
+      - "traefik.http.routers.front_prc0.rule=PathPrefix(`/`)"
       - "traefik.docker.network=hex-network"
 
   nginx_rpc1:
@@ -27,7 +27,7 @@ services:
           - rpc1_alias
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.back_auth.rule=Host(`rpc1_alias`)"
+      - "traefik.http.routers.prc1.rule=Host(`rpc1_alias`)"
       - "traefik.docker.network=hex-network"
 
   nginx_rpc2:
@@ -42,7 +42,7 @@ services:
           - rpc2_alias
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.back_pokemon.rule=Host(`rpc2_alias`)"
+      - "traefik.http.routers.rpc2.rule=Host(`rpc2_alias`)"
       - "traefik.docker.network=hex-network"
 
   nginx_rpc3:
@@ -57,7 +57,7 @@ services:
           - rpc3_alias
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.back_stats.rule=Host(`rpc3_alias`)"
+      - "traefik.http.routers.rpc3.rule=Host(`rpc3_alias`)"
       - "traefik.docker.network=hex-network"
 
   traefik:
